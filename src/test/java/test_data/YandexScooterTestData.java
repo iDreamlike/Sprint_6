@@ -30,4 +30,11 @@ public class YandexScooterTestData {
                         "Да, обязательно. Всем самокатов! И Москве, и Московской области.")
         );
     }
+
+    private static Stream<Arguments> userProvider() {
+        return Stream.of(
+                Arguments.of("Вася", "Петров", "Забугоркино", "11111111111"),
+                Arguments.of("Петя", "Васильев", "Верхняя Колыбелька", "22222222222")
+        );
+    }
 }

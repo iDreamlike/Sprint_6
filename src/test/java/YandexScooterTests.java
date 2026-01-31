@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import yandex_scooter_site.HomePage;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,18 +30,16 @@ public class YandexScooterTests {
         assertEquals(expected, objHomePage.getAnswerText(), "Текст вопроса и ответа не совпадает");
     }
 
-    @Test
-    void scooterOrderPositiveTest() {
+    @ParameterizedTest
+    @MethodSource("test_data.YandexScooterTestData#userProvider")
+    void scooterOrderPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
         driver.get("https://qa-scooter.praktikum-services.ru/");
         HomePage objHomePage = new HomePage(driver);
         objHomePage.clickAcceptCookieButton();
         objHomePage.clickHeaderOrderButton();
-        objHomePage.createOrder(
-                "Вася",
-                "Петров",
-                "Забугоркино",
-                "11111111111");
-        assertTrue(objHomePage.getCompleteOrderTitleText().contains("Заказ оформлен"));
+        objHomePage.createOrder(firstName, familyName,address, phoneNumber);
+        assertTrue(objHomePage.getCompleteOrderTitleText().contains("Заказ оформлен"),
+                "Заголовок экрана успеха заказа не найден");
     }
 
     @AfterEach
