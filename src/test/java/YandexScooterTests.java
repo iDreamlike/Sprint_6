@@ -1,11 +1,11 @@
 import org.junit.jupiter.api.AfterEach;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import yandex_scooter_site.HomePage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,8 +15,8 @@ public class YandexScooterTests {
 
     @BeforeEach
     public void setUp() {
-        driver = new ChromeDriver();
-//        driver = new FirefoxDriver();
+//        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
@@ -32,11 +32,23 @@ public class YandexScooterTests {
 
     @ParameterizedTest
     @MethodSource("test_data.YandexScooterTestData#userProvider")
-    void scooterOrderPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
+    void scooterOrderByHeaderButtonPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
         driver.get("https://qa-scooter.praktikum-services.ru/");
         HomePage objHomePage = new HomePage(driver);
         objHomePage.clickAcceptCookieButton();
         objHomePage.clickHeaderOrderButton();
+        objHomePage.createOrder(firstName, familyName,address, phoneNumber);
+        assertTrue(objHomePage.getCompleteOrderTitleText().contains("Заказ оформлен"),
+                "Заголовок экрана успеха заказа не найден");
+    }
+
+    @ParameterizedTest
+    @MethodSource("test_data.YandexScooterTestData#userProvider")
+    void scooterOrderByMiddleButtonPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
+        driver.get("https://qa-scooter.praktikum-services.ru/");
+        HomePage objHomePage = new HomePage(driver);
+        objHomePage.clickAcceptCookieButton();
+        objHomePage.clickMiddleOrderButton();
         objHomePage.createOrder(firstName, familyName,address, phoneNumber);
         assertTrue(objHomePage.getCompleteOrderTitleText().contains("Заказ оформлен"),
                 "Заголовок экрана успеха заказа не найден");

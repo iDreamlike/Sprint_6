@@ -137,6 +137,10 @@ public class HomePage {
         driver.findElement(orderButtonHeader).click();
     }
 
+    public void clickMiddleOrderButton() {
+        driver.findElement(orderButtonMiddle).click();
+    }
+
     public void clickOrderButton() {
         driver.findElement(orderButton).click();
     }
