@@ -1,12 +1,13 @@
+package tests;
+
+import config.Config;
+import utils.DriverFactory;
+import pages.HomePage;
 import org.junit.jupiter.api.AfterEach;
-import yandex_scooter_site.HomePage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,15 +16,13 @@ public class YandexScooterTests {
 
     @BeforeEach
     public void setUp() {
-//        driver = new ChromeDriver();
-        driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver = DriverFactory.createDriver();
     }
 
     @ParameterizedTest
-    @MethodSource("test_data.YandexScooterTestData#questionsAnswersProvider")
+    @MethodSource("data.YandexScooterTestData#questionsAnswersProvider")
     void questionAnswerTest(String questionText, String expected) {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Config.BASE_URL);
         HomePage objHomePage = new HomePage(driver, questionText);
         objHomePage.clickAcceptCookieButton();
         objHomePage.clickQuestion();
@@ -31,9 +30,9 @@ public class YandexScooterTests {
     }
 
     @ParameterizedTest
-    @MethodSource("test_data.YandexScooterTestData#userProvider")
+    @MethodSource("data.YandexScooterTestData#userProvider")
     void scooterOrderByHeaderButtonPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Config.BASE_URL);
         HomePage objHomePage = new HomePage(driver);
         objHomePage.clickAcceptCookieButton();
         objHomePage.clickHeaderOrderButton();
@@ -43,9 +42,9 @@ public class YandexScooterTests {
     }
 
     @ParameterizedTest
-    @MethodSource("test_data.YandexScooterTestData#userProvider")
+    @MethodSource("data.YandexScooterTestData#userProvider")
     void scooterOrderByMiddleButtonPositiveTest(String firstName, String familyName, String address, String phoneNumber) {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Config.BASE_URL);
         HomePage objHomePage = new HomePage(driver);
         objHomePage.clickAcceptCookieButton();
         objHomePage.clickMiddleOrderButton();

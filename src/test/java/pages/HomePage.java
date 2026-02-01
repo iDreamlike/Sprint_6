@@ -1,9 +1,10 @@
-package yandex_scooter_site;
+package pages;
 
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.WebElement;
 import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 @Getter
@@ -40,7 +41,8 @@ public class HomePage {
             By.xpath("//button[contains(@class, 'Button_Middle__1CSJM')]");
     // Поле "Когда привезти самокат" на форме "Про аренду"
     private final By orderDateField =
-            By.xpath("//*[@class='Order_Form__17u6u']//input[contains(@placeholder, 'Когда привезти самокат')]");
+            By.xpath("//*[@class='Order_Form__17u6u']//input[contains(@placeholder," +
+                    " 'Когда привезти самокат')]");
     // Сегодняшняя дата в выпадающем календаре на форме "Про аренду"
     private final By orderDate =
             By.xpath("//*[contains(@class,'react-datepicker__day--today')]");
@@ -77,15 +79,15 @@ public class HomePage {
     }
 
     public void clickQuestion() {
-        Actions actions = new Actions(driver);
-        actions.scrollToElement(driver.findElement(getQuestionPath())).perform();
+        WebElement element = driver.findElement(getQuestionPath());
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
         driver.findElement(getQuestionPath()).click();
     }
 
     public String getAnswerText() {
-        Actions actions = new Actions(driver);
         By answerText = with(By.xpath("//*[contains(@id, 'accordion__panel')]")).near(getQuestionPath());
-        actions.scrollToElement(driver.findElement(answerText)).perform();
+        WebElement element = driver.findElement(answerText);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
         return driver.findElement(answerText).getText();
     }
 
